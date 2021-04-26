@@ -17,11 +17,12 @@ namespace Coupe.Idsrv
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllersWithViews();
+            services.AddControllers();
 
             services.AddIdentityServer()
                 .AddDeveloperSigningCredential()
                 .AddInMemoryIdentityResources(Config.GetIdentityResources())
+                .AddInMemoryApiScopes(Config.GetApiScopes())
                 .AddInMemoryApiResources(Config.GetApis())
                 .AddInMemoryClients(Config.GetClients());
 
@@ -52,8 +53,6 @@ namespace Coupe.Idsrv
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
             app.UseDeveloperExceptionPage();
-
-            app.UseStaticFiles();
 
             app.UseRouting();
             app.UseCors("api");

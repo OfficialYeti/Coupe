@@ -14,6 +14,8 @@ export class SigninCallbackComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
+    console.log("Complete login")
+
     if (this._route.snapshot.queryParamMap.get('error') === 'access_denied') {
       console.error('You do not have permission to use this application.');
       this._router.navigate(['/'], { replaceUrl: true });

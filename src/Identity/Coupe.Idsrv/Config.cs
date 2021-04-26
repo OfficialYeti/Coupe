@@ -9,57 +9,57 @@ namespace Coupe.Idsrv
         public static IEnumerable<IdentityResource> GetIdentityResources()
         {
             return new List<IdentityResource>
-            {
-                new IdentityResources.OpenId(),
-                new IdentityResources.Profile(),
-                new IdentityResources.Email(),
-            };
+                {
+                     new IdentityResources.OpenId(),
+                     new IdentityResources.Profile(),
+                     new IdentityResources.Email(),
+                };
         }
 
         public static IEnumerable<ApiScope> GetApiScopes()
         {
             return new List<ApiScope>
-            {
-                new ApiScope{ Name= "api.scope", UserClaims= { JwtClaimTypes.Name } },
-            };
+                {
+                     new ApiScope{ Name= "api", UserClaims = { JwtClaimTypes.Name } },
+                };
         }
 
         public static IEnumerable<ApiResource> GetApis()
         {
             return new List<ApiResource>
-            {
-                new ApiResource("api", "Display name of api")
                 {
-                    ApiSecrets = { new Secret("secret".Sha256()) },
-                    UserClaims = {JwtClaimTypes.Name},
-                    Scopes = {"api.scope"}
-                }
-            };
+                     new ApiResource("api", "Display name of api")
+                     {
+                          ApiSecrets = { new Secret("secret".Sha256()) },
+                          UserClaims = {JwtClaimTypes.Name},
+                          Scopes = {"api"}
+                     }
+                };
         }
 
         public static IEnumerable<Client> GetClients()
         {
             return new List<Client>
-            {
-                new Client
                 {
-                    ClientId = "interactive.public",
-                    ClientName = "Interactive client (Code with PKCE)",
+                     new Client
+                     {
+                          ClientId = "interactive.public",
+                          ClientName = "Interactive client (Code with PKCE)",
 
-                    AllowedGrantTypes = GrantTypes.Code,
-                    RequirePkce = true,
-                    AllowedScopes = { "openid", "profile", "email", "api.scope" },
+                          AllowedGrantTypes = GrantTypes.Code,
+                          RequirePkce = true,
+                          AllowedScopes = { "openid", "profile", "email", "api" },
 
-                    RedirectUris = { "http://localhost:4200/signin-callback", "http://localhost:4200/assets/scripts/silent-token-renew.html" },
-                    PostLogoutRedirectUris = { "http://localhost:4200/signout-callback" },
-                    AllowedCorsOrigins = { "http://localhost:4200" },
+                          RedirectUris = { "http://localhost:4200", "http://localhost:4200/signin-callback", "http://localhost:4200/assets/scripts/silent-token-renew.html" },
+                          PostLogoutRedirectUris = { "http://localhost:4200/signout-callback" },
+                          AllowedCorsOrigins = { "http://localhost:4200" },
 
-                    RequireClientSecret = false,
-                    RequireConsent = false,
-                    AllowOfflineAccess = true,
-                    AllowAccessTokensViaBrowser = true,
-                },
-            };
+                          RequireClientSecret = false,
+                          RequireConsent = false,
+                          AllowOfflineAccess = true,
+                          AllowAccessTokensViaBrowser = true,
+                     },
+                };
         }
     }
 }

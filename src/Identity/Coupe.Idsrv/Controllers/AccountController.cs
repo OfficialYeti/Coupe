@@ -2,17 +2,21 @@
 using IdentityServer4.Extensions;
 using IdentityServer4.Services;
 using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using System.Threading.Tasks;
 
 namespace Coupe.Idsrv.Controllers
 {
-    public class AccessController : Controller
+    [ApiController]
+    [AllowAnonymous]
+    [Route("[controller]")]
+    public class AccountController : ControllerBase
     {
         private readonly IIdentityServerInteractionService _interaction;
         private readonly IEventService _events;
 
-        public AccessController(
+        public AccountController(
             IEventService events,
             IIdentityServerInteractionService interaction)
         {
@@ -20,11 +24,21 @@ namespace Coupe.Idsrv.Controllers
             _interaction = interaction;
         }
 
-        public IActionResult LoginGoogle(string returnUrl)
+        [HttpGet]
+        public IActionResult Test()
         {
-            return RedirectToAction("Challenge", "Provider", new { provider = "google", returnUrl });
+            return Ok("ok");
         }
 
+        [HttpGet]
+        [Route("Login")]
+        public IActionResult Login(string returnUrl)
+        {
+            return RedirectToAction("Challenge", "Provider", new { scheme = "Google", returnUrl });
+        }
+
+        [HttpGet]
+        [Route("Logout")]
         public async Task<IActionResult> Logout(string logoutId)
         {
             var logout = await _interaction.GetLogoutContextAsync(logoutId);

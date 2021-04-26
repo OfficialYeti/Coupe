@@ -13,10 +13,10 @@ export class AuthService {
 
   constructor(private router: Router) {
     const IdProviderSerttings: UserManagerSettings = {
-      authority: 'https://localhost:5001',
-      client_id: 'angular-at',
+      authority: 'https://localhost:44372',
+      client_id: 'interactive.public',
       response_type: 'code',
-      scope: 'openid profile api.scope',
+      scope: 'openid profile api',
       redirect_uri: `http://localhost:4200/signin-callback`,
       post_logout_redirect_uri: `http://localhost:4200/signout-callback`,
       automaticSilentRenew: true,

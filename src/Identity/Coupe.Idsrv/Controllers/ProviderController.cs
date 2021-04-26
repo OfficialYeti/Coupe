@@ -13,10 +13,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Coupe.Idsrv.Controllers
 {
-    public class ProviderController : Controller
+    [ApiController]
+    [AllowAnonymous]
+    [Route("[controller]")]
+    public class ProviderController : ControllerBase
     {
         private readonly IIdentityServerInteractionService _interaction;
         private readonly IClientStore _clientStore;
@@ -45,6 +49,7 @@ namespace Coupe.Idsrv.Controllers
         /// initiate roundtrip to external authentication provider
         /// </summary>
         [HttpGet]
+        [Route("Challange")]
         public IActionResult Challenge(string scheme, string returnUrl)
         {
             if (string.IsNullOrEmpty(returnUrl)) returnUrl = "~/";
@@ -74,6 +79,7 @@ namespace Coupe.Idsrv.Controllers
         /// Post processing of external authentication
         /// </summary>
         [HttpGet]
+        [Route("Callback")]
         public async Task<IActionResult> Callback()
         {
             // read external identity from the temporary cookie
